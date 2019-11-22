@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeolocationAPI", "GeolocationAPI\GeolocationAPI.csproj", "{FFBD8055-8AE7-44D1-84A4-2F36D52ACC30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geolocation.Infrastructure", "Geolocation.Infrastructure\Geolocation.Infrastructure.csproj", "{2CC17EE3-ED31-4339-A27C-CC8D928B450B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geolocation.Domain", "Geolocation.Domain\Geolocation.Domain.csproj", "{9C82FD63-6882-435F-961A-5CC6AF67178A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{FFBD8055-8AE7-44D1-84A4-2F36D52ACC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFBD8055-8AE7-44D1-84A4-2F36D52ACC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFBD8055-8AE7-44D1-84A4-2F36D52ACC30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CC17EE3-ED31-4339-A27C-CC8D928B450B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CC17EE3-ED31-4339-A27C-CC8D928B450B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CC17EE3-ED31-4339-A27C-CC8D928B450B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CC17EE3-ED31-4339-A27C-CC8D928B450B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C82FD63-6882-435F-961A-5CC6AF67178A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C82FD63-6882-435F-961A-5CC6AF67178A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C82FD63-6882-435F-961A-5CC6AF67178A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C82FD63-6882-435F-961A-5CC6AF67178A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
