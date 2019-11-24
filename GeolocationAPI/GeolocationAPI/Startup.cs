@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace GeolocationAPI
 {
@@ -37,6 +38,8 @@ namespace GeolocationAPI
             }
 
             app.UseMvc();
+
+            app.UseSerilogRequestLogging();
         }
     }
 }
