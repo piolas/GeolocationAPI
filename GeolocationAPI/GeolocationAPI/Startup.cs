@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GeolocationAPI
 {
@@ -27,6 +28,18 @@ namespace GeolocationAPI
 
             services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Geolocation API",
+                    Description = "Simple API to provide geolocation data based on URL or IP address",                   
+                    
+                });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +53,12 @@ namespace GeolocationAPI
             app.UseMvc();
 
             app.UseSerilogRequestLogging();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geolocation API V1");
+            });
         }
     }
 }
