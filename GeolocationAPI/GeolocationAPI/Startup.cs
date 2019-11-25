@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Geolocation.Infrastructure.DTO;
 using GeolocationAPI.Validation;
@@ -40,6 +41,8 @@ namespace GeolocationAPI
                 });
 
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
