@@ -33,6 +33,6 @@ namespace GeolocationAPI
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseSerilog()
-                .UseStartup<Startup>();
+                .UseStartup<Startup>();        
     }
 }
