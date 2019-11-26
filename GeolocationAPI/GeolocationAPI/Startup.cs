@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Geolocation.Infrastructure.DTO;
+using Geolocation.Infrastructure.Services;
 using GeolocationAPI.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
 
 namespace GeolocationAPI
 {
@@ -46,21 +48,22 @@ namespace GeolocationAPI
             services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
 
+            services.AddTransient<IService, IPStackService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
                     Title = "Geolocation API",
-                    Description = "Simple API to provide geolocation data based on URL or IP address",                   
-                    
+                    Description = "Simple API to provide geolocation data based on URL or IP address"
                 });
 
             });
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

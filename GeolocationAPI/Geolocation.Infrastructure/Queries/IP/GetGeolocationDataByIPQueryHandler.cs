@@ -1,6 +1,7 @@
 ﻿using Geolocation.Infrastructure.DTO;
+using Geolocation.Infrastructure.Services;
 using MediatR;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,9 +9,18 @@ namespace Geolocation.Infrastructure.Queries.IP
 {
     public class GetGeolocationDataByIPQueryHandler : IRequestHandler<GetGeolocationDataByIPQuery, GeolocationResponseDTO>
     {
-        public Task<GeolocationResponseDTO> Handle(GetGeolocationDataByIPQuery request, CancellationToken cancellationToken)
+        private readonly ILogger<GetGeolocationDataByIPQueryHandler> _logger;
+        private readonly IService _ipStackService;
+
+        public GetGeolocationDataByIPQueryHandler(ILogger<GetGeolocationDataByIPQueryHandler> logger, IService ipStackService)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _ipStackService = ipStackService;
+        }
+
+        public async Task<GeolocationResponseDTO> Handle(GetGeolocationDataByIPQuery request, CancellationToken cancellationToken)
+        {
+            return await _ipStackService.GetDataFromRemoteAPI(request.IPParameter);
         }
     }
 }
