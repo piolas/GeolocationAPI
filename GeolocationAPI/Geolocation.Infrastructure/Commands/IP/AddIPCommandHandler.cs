@@ -1,7 +1,6 @@
 ﻿using Geolocation.Infrastructure.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,9 +17,20 @@ namespace Geolocation.Infrastructure.Commands.IP
             _ipStackService = ipStackService;
         }
 
-        public Task<CommandResult> Handle(AddIPCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(AddIPCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var response = await _ipStackService.GetDataFromRemoteAPI(request.IPParameter);
+
+            if (response is null)
+            {
+                _logger.LogInformation($"Adding geolocation request for parameter {request.IPParameter} was unsuccessfull");
+                return new CommandResult(null, "Adding new entry based on paramter was unsuccessfull", false);
+            }
+            else
+            {
+                _logger.LogInformation($"Adding geolocation request for parameter {request.IPParameter} was successfull");
+                return new CommandResult(null, "Adding new entry based on paramter was successfull", true);
+            }
         }
     }
 }

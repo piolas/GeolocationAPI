@@ -26,7 +26,7 @@ namespace Geolocation.Infrastructure.Repositories
                 await _context.AddAsync(item);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Added new entry to database with ID: {0}", item.Id);
+                _logger.LogInformation($"Added new entry to database with ID: {item.Id}");
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace Geolocation.Infrastructure.Repositories
 
         public async Task<RootObject> GetById(Guid id)
         {
-            _logger.LogInformation("Retrieving entry from database with ID: {0}", id);
+            _logger.LogInformation($"Retrieving entry from database with ID: {id}");
 
             return await _context.Geolocations.SingleOrDefaultAsync(g => g.Id == id);
         }
@@ -50,6 +50,7 @@ namespace Geolocation.Infrastructure.Repositories
 
         public async Task Remove(RootObject item)
         {
+            _logger.LogInformation($"Removing entry from database with ID: {item.Id}");
             _context.Geolocations.Remove(item);
             await _context.SaveChangesAsync();
         }
