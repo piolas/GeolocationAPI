@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Geolocation.Infrastructure.DTO;
+using Geolocation.Infrastructure.Persistence;
 using Geolocation.Infrastructure.Queries.IP;
 using Geolocation.Infrastructure.Services;
 using GeolocationAPI.Validation;
@@ -9,11 +10,11 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Reflection;
 
 namespace GeolocationAPI
 {
@@ -28,7 +29,7 @@ namespace GeolocationAPI
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("azurekeyvault.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();            
+                .AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
@@ -40,6 +41,8 @@ namespace GeolocationAPI
             services.AddMediatR(typeof(Startup));
             services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
+
+            services.AddDbContext<GeolocationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SimpleApiDatabase")), ServiceLifetime.Transient);
 
             services.AddTransient<IService, IPStackService>();
 
@@ -57,7 +60,6 @@ namespace GeolocationAPI
             services.AddAutoMapper(typeof(Startup));
 
             services.AddMediatR(typeof(GetGeolocationDataByIPQueryHandler).Assembly);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
