@@ -41,6 +41,13 @@ namespace Geolocation.Infrastructure.Repositories
             return await _context.Geolocations.SingleOrDefaultAsync(g => g.Id == id);
         }
 
+        public async Task<RootObject> GetByIP(string ip)
+        {
+            _logger.LogInformation("Retrieving entry from database based on IP parameter");
+
+            return await _context.Geolocations.SingleOrDefaultAsync(g => g.ip == ip);
+        }
+
         public async Task Remove(RootObject item)
         {
             _context.Geolocations.Remove(item);
