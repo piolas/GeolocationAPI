@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Geolocation.Infrastructure.DTO;
+using Geolocation.Infrastructure.Queries.IP;
 using Geolocation.Infrastructure.Services;
 using GeolocationAPI.Validation;
 using MediatR;
@@ -27,15 +28,7 @@ namespace GeolocationAPI
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("azurekeyvault.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            var config = builder.Build();
-
-            builder.AddAzureKeyVault(
-                $"https://{config["azureKeyVault:vault"]}.vault.azure.net/",
-                config["azureKeyVault:clientId"],
-                config["azureKeyVault:clientSecret"]
-            );
+                .AddEnvironmentVariables();            
 
             Configuration = builder.Build();
         }
@@ -44,7 +37,7 @@ namespace GeolocationAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation();
-
+            services.AddMediatR(typeof(Startup));
             services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
 
@@ -63,7 +56,8 @@ namespace GeolocationAPI
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetGeolocationDataByIPQueryHandler).Assembly);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

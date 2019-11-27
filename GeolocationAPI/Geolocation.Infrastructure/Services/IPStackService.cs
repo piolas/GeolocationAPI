@@ -26,7 +26,7 @@ namespace Geolocation.Infrastructure.Services
 
             var client = new RestClient("http://api.ipstack.com");
 
-            var request = new RestRequest($"{paramter}/?access_key={apikey}");
+            var request = new RestRequest($"{paramter}?access_key={apikey}");
 
             var response = await client.ExecuteTaskAsync<GeolocationResponseDTO>(request);           
 
