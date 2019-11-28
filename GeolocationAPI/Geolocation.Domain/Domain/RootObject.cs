@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Geolocation.Domain.Domain
 {
-    public sealed class RootObject
+    public class RootObject
     {
         public Guid Id { get; set; }
         public string ip { get; set; }
@@ -26,6 +26,7 @@ namespace Geolocation.Domain.Domain
 
     public class Language
     {
+        public Guid Id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
         public string native { get; set; }
@@ -33,6 +34,7 @@ namespace Geolocation.Domain.Domain
 
     public class Location
     {
+        public Guid Id { get; set; }
         public int geoname_id { get; set; }
         public string capital { get; set; }
         public List<Language> languages { get; set; }
@@ -54,6 +56,7 @@ namespace Geolocation.Domain.Domain
 
     public class Currency
     {
+        public Guid Id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
         public string plural { get; set; }
@@ -63,6 +66,7 @@ namespace Geolocation.Domain.Domain
 
     public class Connection
     {
+        public Guid Id { get; set; }
         public int asn { get; set; }
         public string isp { get; set; }
     }

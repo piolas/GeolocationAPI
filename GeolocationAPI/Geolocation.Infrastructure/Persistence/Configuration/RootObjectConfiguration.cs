@@ -8,7 +8,7 @@ namespace Geolocation.Infrastructure.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<RootObject> builder)
         {
-            builder.HasKey(r => r.Id);
+            //builder.HasKey(r => r.Id);
         }
     }
 }
