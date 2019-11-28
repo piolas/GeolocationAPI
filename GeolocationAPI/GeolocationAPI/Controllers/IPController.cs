@@ -2,6 +2,7 @@
 using Geolocation.Infrastructure.Commands.IP;
 using Geolocation.Infrastructure.DTO;
 using Geolocation.Infrastructure.Queries.IP;
+using GeolocationAPI.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -25,12 +26,27 @@ namespace GeolocationAPI.Controllers
         /// <returns></returns>
         [Route("{ip}")]
         [HttpGet]
+        [ProducesResponseType(typeof(BadRequestObjectResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(CommandResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetGeolocationDataByIP([FromRoute] string ip)
         {
-            var geolocationData = await _mediator.Send(new GetGeolocationDataByIPQuery(ip));
+            IPDataValidator validator = new IPDataValidator();
+            var result = validator.Validate(new IPDataDTO { IPParameter=ip});
 
-            return Ok(geolocationData);
+            if (result.IsValid)
+            {
+                var geolocationData = await _mediator.Send(new GetGeolocationDataByIPQuery(ip));
+                return Ok(geolocationData);
+            }
+            var errotList = result.Errors;
+            var errorMessages = "";
+
+            foreach (var failure in errotList)
+            {
+                errorMessages += "Property " + failure.PropertyName + " failed validation. Error was: " + failure.ErrorMessage;
+            }
+            return BadRequest(errorMessages);
+            
         }
 
         /// <summary>

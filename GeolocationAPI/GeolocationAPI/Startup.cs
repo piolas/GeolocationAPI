@@ -1,9 +1,15 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Geolocation.Domain.Domain;
+using Geolocation.Infrastructure.Commands;
+using Geolocation.Infrastructure.Commands.IP;
+using Geolocation.Infrastructure.Commands.URL;
 using Geolocation.Infrastructure.DTO;
 using Geolocation.Infrastructure.Persistence;
 using Geolocation.Infrastructure.Queries.IP;
+using Geolocation.Infrastructure.Queries.URL;
+using Geolocation.Infrastructure.Repositories;
 using Geolocation.Infrastructure.Services;
 using GeolocationAPI.Validation;
 using MediatR;
@@ -38,10 +44,17 @@ namespace GeolocationAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation();
+            services.AddMvc(opt =>
+            {
+            }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation(fvc =>
+            //    fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+
             services.AddMediatR(typeof(Startup));
-            services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
-            services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
+
+            //services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
+            //services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
 
             services.AddDbContext<GeolocationDbContext>(options =>
             {
@@ -61,6 +74,7 @@ namespace GeolocationAPI
             //});
 
             services.AddTransient<IService, IPStackService>();
+            services.AddTransient<IRepository<RootObject>, RootObjectRepository>();
 
             services.AddSwaggerGen(c =>
             {
@@ -75,7 +89,12 @@ namespace GeolocationAPI
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMediatR(typeof(GetGeolocationDataByIPQueryHandler).Assembly);
+            services.AddMediatR(typeof(GetGeolocationDataByIPQueryHandler).Assembly,
+                                typeof(GetGeolocationDataByURLQueryHandler).Assembly,
+                                typeof(AddIPCommandHandler).Assembly,
+                                typeof(DeleteIPCommandHandler).Assembly,
+                                typeof(AddURLCommandHandler).Assembly,
+                                typeof(DeleteURLCommandHandler).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

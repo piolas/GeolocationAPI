@@ -1,4 +1,7 @@
-﻿using Geolocation.Infrastructure.Services;
+﻿using AutoMapper;
+using Geolocation.Domain.Domain;
+using Geolocation.Infrastructure.Repositories;
+using Geolocation.Infrastructure.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Threading;
@@ -10,11 +13,15 @@ namespace Geolocation.Infrastructure.Commands
     {
         private readonly ILogger<AddURLCommandHandler> _logger;
         private readonly IService _ipStackService;
+        private readonly IRepository<RootObject> _repository;
+        private readonly IMapper _mapper;
 
-        public AddURLCommandHandler(ILogger<AddURLCommandHandler> logger, IService ipStackService)
+        public AddURLCommandHandler(ILogger<AddURLCommandHandler> logger, IService ipStackService, IRepository<RootObject> repository, IMapper mapper)
         {
             _logger = logger;
             _ipStackService = ipStackService;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<CommandResult> Handle(AddURLCommand request, CancellationToken cancellationToken)
@@ -23,11 +30,12 @@ namespace Geolocation.Infrastructure.Commands
 
             if (response is null)
             {
-                _logger.LogInformation($"Adding geolocation request for parameter {request.URLParameter} was unsuccessfull");
-                return new CommandResult(null, "Adding new entry based on paramter was unsuccessfull", false);
+                _logger.LogInformation($"Adding geolocation request for parameter {request.URLParameter} via external service was unsuccessfull");
+                return new CommandResult(null, "Adding new entry based on paramter skipped. Null response from external service", false);
             }
             else
             {
+                await _repository.Add(_mapper.Map<RootObject>(response));
                 _logger.LogInformation($"Adding geolocation request for parameter {request.URLParameter} was successfull");
                 return new CommandResult(null, "Adding new entry based on paramter was successfull", true);
             }

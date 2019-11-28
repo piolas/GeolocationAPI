@@ -1,5 +1,6 @@
 ﻿using Geolocation.Infrastructure.DTO;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Polly;
 using RestSharp;
 using System;
@@ -23,7 +24,7 @@ namespace Geolocation.Infrastructure.Services
             return key;
         }
 
-        public async Task<GeolocationResponseDTO> GetDataFromRemoteAPI(string paramter)
+        public async Task<GeolocationResponseDTO> GetDataFromRemoteAPI(string parameter)
         {
             var maxRetryAttempts = 3;
             var pauseBetweenFailures = TimeSpan.FromSeconds(2);
@@ -35,18 +36,37 @@ namespace Geolocation.Infrastructure.Services
 
             var apikey = GetIPStackAPIKey();
 
-            var client = new RestClient("http://api.ipstack.com");
+            //var client = new RestClient("http://api.ipstack.com");            
 
-            var request = new RestRequest($"{paramter}?access_key={apikey}");
+            //var request = new RestRequest("{parameter}?access_key={apikey}");
 
-            IRestResponse<GeolocationResponseDTO> response = null;
+            //request.AddParameter("parameter", parameter, ParameterType.GetOrPost);
+            //request.AddParameter("apikey", apikey);
 
-            await retryPolicy.ExecuteAsync(async () =>
+            //IRestResponse<GeolocationResponseDTO> response = null;
+
+            //$"http://api.ipstack.com/{parameter}?access_key={apikey}"
+
+            GeolocationResponseDTO dto = null;
+
+            var client = new HttpClient();
             {
-                response = await client.ExecuteTaskAsync<GeolocationResponseDTO>(request);                
-            });
+                string product = null;
+                var response = await client.GetAsync($"http://api.ipstack.com/{parameter}?access_key={apikey}");
+                if (response.IsSuccessStatusCode)
+                {
+                    product = await response.Content.ReadAsStringAsync();
+                    dto = JsonConvert.DeserializeObject<GeolocationResponseDTO>(product);
+                }
+                return dto;
+            }
 
-            return response.Data;
+                //await retryPolicy.ExecuteAsync(async () =>
+                //{
+                //    response = await client.ExecuteTaskAsync<GeolocationResponseDTO>(request);
+                //});
+
+            //return response.Data;
         }
     }
 }
