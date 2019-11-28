@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace GeolocationAPI
 {
@@ -42,7 +43,22 @@ namespace GeolocationAPI
             services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
 
-            services.AddDbContext<GeolocationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SimpleApiDatabase")), ServiceLifetime.Transient);
+            services.AddDbContext<GeolocationDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("GeolocationApiDatabase"),
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null);
+                });
+            });
+
+            //services.AddDbContext<GeolocationDbContext>(options =>
+            //{
+            //    options.UseInMemoryDatabase(databaseName: "GeolocationApiDatabase");                
+            //});
 
             services.AddTransient<IService, IPStackService>();
 
