@@ -31,7 +31,7 @@ namespace Geolocation.Infrastructure.Commands.IP
             }
             else
             {
-                await _repository.Remove(entry);
+                await _repository.Remove(entry.ip);
                 _logger.LogInformation($"Data for parameter {request.IPParameter} was found in DB. Deletion completed");
                 return new CommandResult(entry.Id, "Entry found in DB. Deletion completed", true);
             }

@@ -38,5 +38,62 @@ namespace Geolocation.UnitTests.Repositories
                 Assert.AreEqual(id, context.Geolocations.Single().Id);
             }
         }
+
+        [Test]
+        public async Task Delete_RootObject_from_database()
+        {
+            var options = new DbContextOptionsBuilder<GeolocationDbContext>()
+                                .UseInMemoryDatabase(databaseName: "GeolocationApi")
+                                .Options;
+
+            var urlAddress = "89.64.27.223";
+
+            var mockLogger = Mock.Of<ILogger<RootObjectRepository>>();
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                var repository = new RootObjectRepository(mockLogger, context);
+
+                await repository.Add(new RootObject { ip = urlAddress });
+            }
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                Assert.AreEqual(1, context.Geolocations.Count());
+                Assert.AreEqual(urlAddress, context.Geolocations.Single().ip);
+            }
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                var repository = new RootObjectRepository(mockLogger, context);
+                await repository.Remove(urlAddress);
+                Assert.AreEqual(0, context.Geolocations.Count());
+            }
+        }
+
+            [Test]
+        public async Task Get_RootObject_from_database()
+        {
+            var options = new DbContextOptionsBuilder<GeolocationDbContext>()
+                                .UseInMemoryDatabase(databaseName: "GeolocationApi")
+                                .Options;
+
+            var urlAddress = "89.64.27.223";
+
+            var mockLogger = Mock.Of<ILogger<RootObjectRepository>>();
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                var repository = new RootObjectRepository(mockLogger, context);
+
+                await repository.Add(new RootObject { ip = urlAddress });
+            }
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                Assert.AreEqual(1, context.Geolocations.Count());
+                Assert.AreEqual(urlAddress, context.Geolocations.Single().ip);
+            }
+        }
     }
 }
