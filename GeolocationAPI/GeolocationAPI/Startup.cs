@@ -6,6 +6,7 @@ using Geolocation.Infrastructure.Commands;
 using Geolocation.Infrastructure.Commands.IP;
 using Geolocation.Infrastructure.Commands.URL;
 using Geolocation.Infrastructure.DTO;
+using Geolocation.Infrastructure.MapperProfiles;
 using Geolocation.Infrastructure.Persistence;
 using Geolocation.Infrastructure.Queries.IP;
 using Geolocation.Infrastructure.Queries.URL;
@@ -87,7 +88,15 @@ namespace GeolocationAPI
 
             });
 
-            services.AddAutoMapper(typeof(Startup));
+            //services.AddAutoMapper(typeof(Startup));
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new GeolocationResponseProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddMediatR(typeof(GetGeolocationDataByIPQueryHandler).Assembly,
                                 typeof(GetGeolocationDataByURLQueryHandler).Assembly,
