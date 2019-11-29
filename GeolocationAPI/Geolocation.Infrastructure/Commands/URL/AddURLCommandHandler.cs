@@ -37,8 +37,9 @@ namespace Geolocation.Infrastructure.Commands
             {
                 var mappedObject = _mapper.Map<RootObject>(response);
 
-                await _repository.Add(mappedObject);
                 _logger.LogInformation($"Adding geolocation request for parameter {request.URLParameter} was successfull");
+                await _repository.Add(mappedObject);
+                
                 return new CommandResult(null, "Adding new entry based on paramter was successfull", true);
             }
         }
