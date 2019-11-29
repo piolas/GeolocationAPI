@@ -351,3 +351,4 @@ MigrationBackup/
 
 #Ignore local file with ClientSecret for Azure KeyVault service
 **/azurekeyvault.json
+*.txt
