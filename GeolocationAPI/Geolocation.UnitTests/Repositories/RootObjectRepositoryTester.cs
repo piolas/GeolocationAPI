@@ -18,7 +18,7 @@ namespace Geolocation.UnitTests.Repositories
         public async Task Add_RootObject_to_database()
         {
             var options = new DbContextOptionsBuilder<GeolocationDbContext>()
-                                .UseInMemoryDatabase(databaseName: "GeolocationApi")
+                                .UseInMemoryDatabase(databaseName: "Add_RootObject_to_database")
                                 .Options;
 
             var mockLogger = Mock.Of<ILogger<RootObjectRepository>>();
@@ -43,7 +43,7 @@ namespace Geolocation.UnitTests.Repositories
         public async Task Delete_RootObject_from_database()
         {
             var options = new DbContextOptionsBuilder<GeolocationDbContext>()
-                                .UseInMemoryDatabase(databaseName: "GeolocationApi")
+                                .UseInMemoryDatabase(databaseName: "Delete_RootObject_from_database")
                                 .Options;
 
             var urlAddress = "89.64.27.223";
@@ -75,7 +75,7 @@ namespace Geolocation.UnitTests.Repositories
         public async Task Get_RootObject_from_database()
         {
             var options = new DbContextOptionsBuilder<GeolocationDbContext>()
-                                .UseInMemoryDatabase(databaseName: "GeolocationApi")
+                                .UseInMemoryDatabase(databaseName: "Get_RootObject_from_database")
                                 .Options;
 
             var urlAddress = "89.64.27.223";
