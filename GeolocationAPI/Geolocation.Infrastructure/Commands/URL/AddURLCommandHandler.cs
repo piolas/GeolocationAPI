@@ -36,6 +36,7 @@ namespace Geolocation.Infrastructure.Commands
             else
             {
                 var mappedObject = _mapper.Map<RootObject>(response);
+                mappedObject.URLValue = request.URLParameter;
 
                 _logger.LogInformation($"Adding geolocation request for parameter {request.URLParameter} was successfull");
                 await _repository.Add(mappedObject);
