@@ -77,18 +77,18 @@ namespace GeolocationAPI
             services.AddTransient<IService, IPStackService>();
             services.AddTransient<IRepository<RootObject>, RootObjectRepository>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Geolocation API",
-                    Description = "Simple API to provide geolocation data based on URL or IP address"
-                });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info
+            //    {
+            //        Version = "v1",
+            //        Title = "Geolocation API",
+            //        Description = "Simple API to provide geolocation data based on URL or IP address"
+            //    });
 
-            });
+            //});
 
-            //services.AddAutoMapper(typeof(Startup));
+            
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -118,11 +118,11 @@ namespace GeolocationAPI
 
             app.UseSerilogRequestLogging();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geolocation API V1");
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geolocation API V1");
+            //});
         }
     }
 }

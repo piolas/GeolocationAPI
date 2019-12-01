@@ -27,7 +27,7 @@ namespace GeolocationAPI.Controllers
         [Route("{ip}")]
         [HttpGet]
         [ProducesResponseType(typeof(BadRequestObjectResult), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(CommandResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(OkObjectResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetGeolocationDataByIP([FromRoute] string ip)
         {
             IPDataValidator validator = new IPDataValidator();
@@ -55,11 +55,11 @@ namespace GeolocationAPI.Controllers
         /// <param name="ip"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(GeolocationResponseDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CommandResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddGeolocationDataByIP([FromBody] IPDataDTO ip)
         {
-            var geolocationData = await _mediator.Send(new AddIPCommand { IPParameter = ip.IPParameter });
-            return Ok(geolocationData);
+            var result = await _mediator.Send(new AddIPCommand { IPParameter = ip.IPParameter });
+            return Ok(result);
         }
 
         /// <summary>
