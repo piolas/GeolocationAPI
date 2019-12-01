@@ -6,6 +6,7 @@ namespace Geolocation.Domain.Domain
     public class RootObject
     {
         public Guid Id { get; set; }
+        public string URLValue { get; set; }
         public string ip { get; set; }
         public string type { get; set; }
         public string continent_code { get; set; }

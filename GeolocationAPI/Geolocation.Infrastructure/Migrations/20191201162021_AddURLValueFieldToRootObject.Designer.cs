@@ -4,14 +4,16 @@ using Geolocation.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Geolocation.Infrastructure.Migrations
 {
     [DbContext(typeof(GeolocationDbContext))]
-    partial class GeolocationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191201162021_AddURLValueFieldToRootObject")]
+    partial class AddURLValueFieldToRootObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
