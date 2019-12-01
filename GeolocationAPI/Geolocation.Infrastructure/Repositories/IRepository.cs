@@ -7,8 +7,10 @@ namespace Geolocation.Infrastructure.Repositories
     {
         Task<T> GetById(Guid id);
         Task<T> GetByIP(string ip);
+        Task<T> GetByURL(string url);
         Task Add(T item);
-        Task Remove(string ip);
+        Task RemoveByIP(string ip);
+        Task RemoveByURL(string url);
         Task Update(T item);
     }
 }

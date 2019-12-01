@@ -31,7 +31,7 @@ namespace Geolocation.Infrastructure.Commands.URL
             }
             else
             {
-                await _repository.Remove(entry.ip);
+                await _repository.RemoveByURL(entry.URLValue);
                 _logger.LogInformation($"Data for parameter {request.URLParameter} was found in DB. Deletion completed");
                 return new CommandResult(entry.Id, "Entry found in DB. Deletion completed", true);
             }

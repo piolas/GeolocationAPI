@@ -40,13 +40,13 @@ namespace Geolocation.UnitTests.Repositories
         }
 
         [Test]
-        public async Task Delete_RootObject_from_database()
+        public async Task Delete_RootObject_from_database_by_IP()
         {
             var options = new DbContextOptionsBuilder<GeolocationDbContext>()
-                                .UseInMemoryDatabase(databaseName: "Delete_RootObject_from_database")
+                                .UseInMemoryDatabase(databaseName: "Delete_RootObject_from_database_by_IP")
                                 .Options;
 
-            var urlAddress = "89.64.27.223";
+            var ipAddress = "89.64.27.223";
 
             var mockLogger = Mock.Of<ILogger<RootObjectRepository>>();
 
@@ -54,19 +54,51 @@ namespace Geolocation.UnitTests.Repositories
             {
                 var repository = new RootObjectRepository(mockLogger, context);
 
-                await repository.Add(new RootObject { ip = urlAddress });
+                await repository.Add(new RootObject { ip = ipAddress });
             }
 
             using (var context = new GeolocationDbContext(options))
             {
                 Assert.AreEqual(1, context.Geolocations.Count());
-                Assert.AreEqual(urlAddress, context.Geolocations.Single().ip);
+                Assert.AreEqual(ipAddress, context.Geolocations.Single().ip);
             }
 
             using (var context = new GeolocationDbContext(options))
             {
                 var repository = new RootObjectRepository(mockLogger, context);
-                await repository.Remove(urlAddress);
+                await repository.RemoveByIP(ipAddress);
+                Assert.AreEqual(0, context.Geolocations.Count());
+            }
+        }
+
+        [Test]
+        public async Task Delete_RootObject_from_database_by_URL()
+        {
+            var options = new DbContextOptionsBuilder<GeolocationDbContext>()
+                                .UseInMemoryDatabase(databaseName: "Delete_RootObject_from_database_by_IP")
+                                .Options;
+
+            var urlAddress = "www.onet.pl";
+
+            var mockLogger = Mock.Of<ILogger<RootObjectRepository>>();
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                var repository = new RootObjectRepository(mockLogger, context);
+
+                await repository.Add(new RootObject { URLValue = urlAddress });
+            }
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                Assert.AreEqual(1, context.Geolocations.Count());
+                Assert.AreEqual(urlAddress, context.Geolocations.Single().URLValue);
+            }
+
+            using (var context = new GeolocationDbContext(options))
+            {
+                var repository = new RootObjectRepository(mockLogger, context);
+                await repository.RemoveByURL(urlAddress);
                 Assert.AreEqual(0, context.Geolocations.Count());
             }
         }

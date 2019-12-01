@@ -48,10 +48,25 @@ namespace Geolocation.Infrastructure.Repositories
             return await _context.Geolocations.SingleOrDefaultAsync(g => g.ip == ip);
         }
 
-        public async Task Remove(string ip)
+        public async Task<RootObject> GetByURL(string URL)
+        {
+            _logger.LogInformation("Retrieving entry from database based on IP parameter");
+
+            return await _context.Geolocations.SingleOrDefaultAsync(g => g.URLValue == URL);
+        }
+
+        public async Task RemoveByIP(string ip)
         {
             _logger.LogInformation($"Removing entry from database with IP: {ip}");
             var item = await GetByIP(ip);
+            _context.Geolocations.Remove(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveByURL(string url)
+        {
+            _logger.LogInformation($"Removing entry from database with URL: {url}");
+            var item = await GetByURL(url);
             _context.Geolocations.Remove(item);
             await _context.SaveChangesAsync();
         }
