@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geolocation.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geolocation.Domain", "Geolocation.Domain\Geolocation.Domain.csproj", "{9C82FD63-6882-435F-961A-5CC6AF67178A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geolocation.UnitTests", "Geolocation.UnitTests\Geolocation.UnitTests.csproj", "{5B0177C5-D14E-452D-8DCA-9004E645E2B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geolocation.UnitTests", "Geolocation.UnitTests\Geolocation.UnitTests.csproj", "{5B0177C5-D14E-452D-8DCA-9004E645E2B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geolocation.IntegrationTests", "Geolocation.IntegrationTests\Geolocation.IntegrationTests.csproj", "{4F29D73B-1DFA-47C7-A407-B6C60ED59C1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5B0177C5-D14E-452D-8DCA-9004E645E2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B0177C5-D14E-452D-8DCA-9004E645E2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B0177C5-D14E-452D-8DCA-9004E645E2B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F29D73B-1DFA-47C7-A407-B6C60ED59C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F29D73B-1DFA-47C7-A407-B6C60ED59C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F29D73B-1DFA-47C7-A407-B6C60ED59C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F29D73B-1DFA-47C7-A407-B6C60ED59C1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
