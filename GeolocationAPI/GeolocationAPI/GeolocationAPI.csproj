@@ -27,4 +27,10 @@
     <ProjectReference Include="..\Geolocation.Infrastructure\Geolocation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="azurekeyvault.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

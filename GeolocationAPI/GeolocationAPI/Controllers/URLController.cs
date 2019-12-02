@@ -39,11 +39,11 @@ namespace GeolocationAPI.Controllers
         /// <param name="url"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(GeolocationResponseDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CommandResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AddGeolocationDataByURL([FromBody] URLDataDTO url)
         {
-            var geolocationData = await _mediator.Send(new AddURLCommand { URLParameter = url.URLParameter });
-            return Ok(geolocationData);
+            var result = await _mediator.Send(new AddURLCommand { URLParameter = url.URLParameter });
+            return Ok(result);
         }
 
         /// <summary>

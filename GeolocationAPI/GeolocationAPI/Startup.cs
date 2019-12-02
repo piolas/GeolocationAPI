@@ -49,46 +49,43 @@ namespace GeolocationAPI
             {
             }).AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation(fvc =>
-            //    fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
-
             services.AddMediatR(typeof(Startup));
 
             //services.AddTransient<IValidator<IPDataDTO>, IPDataValidator>();
             //services.AddTransient<IValidator<URLDataDTO>, URLDataValidator>();
 
-            services.AddDbContext<GeolocationDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("GeolocationApiDatabase"),
-                sqlServerOptionsAction: sqlOptions =>
-                {
-                    sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 5,
-                    maxRetryDelay: TimeSpan.FromSeconds(10),
-                    errorNumbersToAdd: null);
-                });
-            });
-
             //services.AddDbContext<GeolocationDbContext>(options =>
             //{
-            //    options.UseInMemoryDatabase(databaseName: "GeolocationApiDatabase");                
+            //    options.UseSqlServer(Configuration.GetConnectionString("GeolocationApiDatabase"),
+            //    sqlServerOptionsAction: sqlOptions =>
+            //    {
+            //        sqlOptions.EnableRetryOnFailure(
+            //        maxRetryCount: 5,
+            //        maxRetryDelay: TimeSpan.FromSeconds(10),
+            //        errorNumbersToAdd: null);
+            //    });
             //});
+
+            services.AddDbContext<GeolocationDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(databaseName: "GeolocationApiDatabase");
+            });
 
             services.AddTransient<IService, IPStackService>();
             services.AddTransient<IRepository<RootObject>, RootObjectRepository>();
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info
-            //    {
-            //        Version = "v1",
-            //        Title = "Geolocation API",
-            //        Description = "Simple API to provide geolocation data based on URL or IP address"
-            //    });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Geolocation API",
+                    Description = "Simple API to provide geolocation data based on URL or IP address"
+                });
 
-            //});
+            });
 
-            
+
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -118,11 +115,11 @@ namespace GeolocationAPI
 
             app.UseSerilogRequestLogging();
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geolocation API V1");
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Geolocation API V1");
+            });
         }
     }
 }
