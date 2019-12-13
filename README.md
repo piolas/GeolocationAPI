@@ -1,4 +1,6 @@
 # GeolocationAPI
+[![Build Status](https://dev.azure.com/piotr-laskawski/GeolocationAPI/_apis/build/status/piolas.GeolocationAPI?branchName=master)](https://dev.azure.com/piotr-laskawski/GeolocationAPI/_build/latest?definitionId=2&branchName=master)
+
 Recruitment task to create and integrate API with external service that provides geolocation data based on URL or IP address
 
 Goal was to implement simple API that would be capable based on URL or IP parameter fetch set of data using external service - IPStack.com. Using GET method API first checks its own databse for record and in case there is none, make request to IPStack for it and then store it internaly for future use.
